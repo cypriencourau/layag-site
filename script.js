@@ -75,3 +75,56 @@ const observer = new IntersectionObserver(
 );
 
 observer.observe(document.querySelector(".progress-card"));
+
+
+// ===============================
+// FLOATING DONATION CARD
+// ===============================
+
+const floating = document.getElementById("floatingDonate");
+const floatingFill = document.getElementById("floatingFill");
+const floatingRaised = document.getElementById("floatingRaised");
+const donateSection = document.getElementById("soutenir");
+
+// Synchronise avec la vraie cagnotte
+floatingRaised.textContent = `${raised.toLocaleString("fr-FR")} €`;
+floatingFill.style.width = `${percent}%`;
+
+window.addEventListener("scroll", () => {
+
+    const showFloating = window.scrollY > 500;
+
+    const donateVisible =
+        donateSection.getBoundingClientRect().top < window.innerHeight * 0.7;
+
+    if (showFloating && !donateVisible) {
+
+        floating.classList.add("show");
+
+    } else {
+
+        floating.classList.remove("show");
+
+    }
+
+}, { passive: true });
+
+//======================  CARTE MAP V1 ===============================
+const map = L.map("map", {
+    scrollWheelZoom: false
+}).setView([13.2, 122.0], 8);
+
+L.tileLayer(
+    "https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png",
+    {
+        attribution: ""
+    }
+).addTo(map);
+
+const mulanay = L.marker([13.52,122.40]).addTo(map);
+
+mulanay.bindPopup("<b>Mulanay</b><br>Départ");
+
+const marinduque = L.marker([13.35,121.90]).addTo(map);
+
+marinduque.bindPopup("<b>Marinduque</b><br>Arrivée");
